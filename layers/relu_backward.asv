@@ -1,8 +1,0 @@
-function dldx = relu_backward(x, dldy)
-    %y = arrayfun(@(x) max(x,0)/x,x);
-    y
-    y(y<0) = 0;
-    y(y>1) = 1;
-    dldx = dldy.*y;
-
-end

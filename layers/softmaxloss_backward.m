@@ -18,12 +18,13 @@ function dldx = softmaxloss_backward(x, labels)
     % for numerical stability. Convince yourself that the result is the same.
     x = bsxfun(@minus, x, min(x, [], 1));
     
-    x_1 = arrayfun(@(k) exp(k),x);
+    x_1 = exp(x);
     x_2 = sum(x_1);
 
     dldx = bsxfun(@rdivide,x_1,x_2);
     
-    dldx(sub2ind(size(dldx),labels',1:batch)) =  (-1) + dldx(sub2ind(size(dldx),labels',1:batch));
+    dldx(sub2ind(size(dldx),labels',1:batch)) =  (-1) + ...
+        dldx(sub2ind(size(dldx),labels',1:batch));
     dldx = dldx/batch;
     dldx = reshape(dldx, sz);
 

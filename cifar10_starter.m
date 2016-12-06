@@ -51,14 +51,15 @@ function cifar10_starter()
         'params', struct('weights', randn(10,4096)/sqrt(4096/2), 'biases', zeros(10,1)));
     
     net.layers{end+1} = struct('type', 'softmaxloss');
-
+    
+    load('models/cifar10_baseline.mat');
     % see the layer sizes
     [a, b] = evaluate(net, x_train(:,:,:,1:8), y_train(1:8), true);
     
-    training_opts = struct('learning_rate', 1e-4,...
+    training_opts = struct('learning_rate', 1e-5,...
         'iterations', 15000,...
         'batch_size', 4,...
-        'momentum', 0.95,...
+        'momentum', 0.98,...
         'weight_decay', 0.001,...
         'moving_average', 0.99);
     
@@ -68,7 +69,7 @@ function cifar10_starter()
     % retraining the net. Add layers to a net where the parameters already
     % are good at the other layers.
     save('models/cifar10_baseline.mat', 'net');
-    
+    save('models/cifar10_baseline_backup.mat', 'net');
     % evaluate on the test set
     pred = zeros(numel(y_test),1);
     batch = training_opts.batch_size;
